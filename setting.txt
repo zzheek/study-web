@@ -27,4 +27,4 @@ PrintWriter : 브라우저쪽으로 출력 (System.out.println() 대체 )
 
 JSP 코드 작성
 
-출처: https://github.com/Malvin222/study
+출: https://github.com/Malvin222/study
