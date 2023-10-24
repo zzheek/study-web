@@ -7,6 +7,8 @@ SQL의 실행 결과를 객체지향으로 매핑해줌
 # MyBatis-spring 연동 방식
 1. MyBatis를 단독 개발하고 스프링에서 DAO를 작성해서 처리하는 방식(마이바티스와 스프링을 독립적인 존재로 바라보고 개발)
 2. MyBatis와 스프링을 연동하고 Mapper 인터페이스만 이용하는 방식(mybatis-spring 라이브러리 이용)
+  단점: 스프링에서 자동으로 생성된 객체를 이용하기 때문에 개발자가 직접 코드 수정하지 못함
+  장점: 인터페이스만으로도 개발을 완료할 수 있음
   - 스프링 관련 라이브러리: spring-jdbc, spring-tx
   - 마이바티스 관련: mybatis, mybatis-spring
   
