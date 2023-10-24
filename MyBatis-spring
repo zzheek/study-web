@@ -12,3 +12,8 @@ SQL의 실행 결과를 객체지향으로 매핑해줌
   - 스프링 관련 라이브러리: spring-jdbc, spring-tx
   - 마이바티스 관련: mybatis, mybatis-spring
   
+# 마이바티스와 스프링을 이용한 영속 처리
+1. VO 선언
+2. Mapper 인터페이스 개발
+3. XMl 개발
+4. 테스트 코드의 개발
