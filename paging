@@ -1,0 +1,32 @@
+# 페이징 처리
+데이터베이스에서 필요 데이터만 가져오도록 하는 것이 가장 중요.
+MySQL/MariaDB에서는 limit이라는 기능 이용.
+
+- limit
+단점: limit 뒤에 식 사용은 불가능, 오로지 값만 주어야 함
+select * from TABLE order by a desc limit skip, fetch; (건너뛰는 데이터의 수, 가져오는 데이터의 수)
+
+- count()의 필요성
+페이징 처리를 하기 위해서는 전체 데이터의 개수 필요.
+
+- 마지막 페이지
+  this.end =   (int)(Math.ceil(this.page / 10.0 )) *  10;
+- 시작 페이지  
+  this.start = this.end - 9;
+- 전체 개수를 고려한 마지막 페이지   
+  int last =  (int)(Math.ceil((total/(double)size)));
+- 마지막 페이지가 제일 끝 페이지 값보다 작은 경우   
+  this.end =  end > last ? last: end;
+- 이전 페이지 
+  this.prev = this.start > 1;
+- 다음 페이지  
+  this.next =  total > this.end * this.size;
+
+
+
+
+# SQL 재귀 복사
+insert into TABLE(a,b,c) (select a,b,c from TABLE);
+기존 테이블의 데이터의 수만큼 insert 됨.
+
+
