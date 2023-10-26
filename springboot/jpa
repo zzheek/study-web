@@ -1,0 +1,81 @@
+# JPA(Java Persistence API)
+자바로 영속 영역을 처리하는 API
+
+- JPA와 스프링을 연동할때 Spring Data JPA 라이브러리 사용.
+  JPA를 단독으로 사용할 때 보다 더 적은 양의 코드로 많은 기능을 활용할 수 있음
+  
+- JPA 이용한 개발의 핵심은 객체지향을 통해서 영속 계층을 처리하는 것.
+  데이터에 해당하는 객체를 엔티티 객체라는 것으로 다루고 JPA로 이를 DB와 연동해서 관리
+  엔티티 객체: PK를 가지는 자바의 객체, 고유의 식별을 위해 @Id를 이용해서 구분하고 관리
+
+- Spriong Data JPA는 자동으로 객체를 생성하고 이를 통해서 예외처리 등을 자동으로 하는데 
+이를 위해서 제공되는 인터페이스가 JpaRepository.
+
+- 엔티티 객체를 생성하기 위한 엔티티 클래스 정의
+  클래스는 반드시 @Entitiy가 존재하고 객체의 구분을 위한 @Id가 필요
+
+- Spriong Data JPA를 이용할때는 JpaRepository 인터페이스를 이용해서 인터페이스 선언만으로
+데이터베이스 관련 작업 처리 가능(CRUD와 페이징 처리 모두 완료)
+
+
+@Test // insert는 save()를 통해 이루어짐. 엔티티가 없을 때는 insert, 존재 시 update
+    public void testInsert() {
+        IntStream.rangeClosed(1, 100).forEach(i -> {
+            Board board = Board.builder()
+                    .title("title..." + i)
+                    .content("content..." + i)
+                    .writer("user" + (i % 10))
+                    .build();
+
+            Board result = boardRepository.save(board);
+            log.info("BNO: " + result.getBno());
+        });
+    }
+
+    @Test // 특정한 번호의 게시물을 조회하는 기능은 findById
+    public void testSelect() {
+        Long bno = 100L;
+
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        log.info(board);
+    }  
+
+    @Test
+    public void testUpdate() {
+
+        Long bno = 100L;
+
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        board.change("update..title 100", "update content 100");
+
+        boardRepository.save(board);
+    }
+
+    @Test
+    public void testDelete() {
+        Long bno = 1L;
+
+        boardRepository.deleteById(bno);
+    }
+
+
+# 페이징 처리
+- Pageable과 Page<T> 타입
+PageRequest.of(페이지 번호, 사이즈): 페이지 번호는 0부터
+PageRequest.of(페이지 번호, 사이즈, sort): 정렬 조건 추가
+PageRequest.of(페이지 번호, 사이즈, sort.Direction, 속성): 정렬 방향과 여러 속성 지정
+- 대부분의 Pageable 파라미터는 메소드 마지막에 사용, 파라미터에 Pageable이 있는 경우에는
+메소드의 리턴 타입을 Page<T> 타입으로 설정
+
+- findALl()의 리턴타입으로 나오는 Page<T>타입은 내부적으로 페이징 처리에 필요한 여러 정보 처리.
+이전/다음 페이지가 존재하는지, 전체 데이터의 개수는 몇 개 인지 등의 기능을 모두 알아낼 수 있음
+
+# JPQL
+JPA에서 사용하는 쿼리 언어
+
